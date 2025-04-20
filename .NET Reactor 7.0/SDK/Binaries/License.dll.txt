@@ -1,0 +1,270 @@
+With the .NET library "License.dll" you are able to determine the current licensing status of your protected software at runtime. You only need to reference this library in your project and use the corresponding methods and properties. All methods and properties should be self explanatory. You don't need to select a license file. If a valid license file is available it will be used automatically to update the licensing status. 
+
+Please note, the methods and properties of "License.dll" only return the correct values after you haved protected your software. After protection the library "License.dll" is not needed anymore.
+
+
+Content of "License.dll" in C#:
+
+namespace License
+{
+    public enum EvaluationType
+    {
+        Trial_Days,
+        Runtime_Minutes
+    }
+
+    public class Status
+    {
+
+        // Methods
+        static Status();
+        private Status();
+        public static bool CheckConfirmationCode(string harwareID, string confirmationCode);
+        public static string GetHardwareID(bool Board, bool CPU, bool HDD, bool MAC);
+        public static string InvalidateLicense();
+        public static void LoadLicense(string filename);
+        public static void LoadLicense(byte[] license);
+        public static bool ReactivateLicense(string code);
+
+        // Properties
+        public static bool Evaluation_Lock_Enabled { get; set; }
+        public static int Evaluation_Time { get; set; }
+        public static int Evaluation_Time_Current { get; set; }
+        public static EvaluationType Evaluation_Type { get; set; }
+        public static DateTime Expiration_Date { get; set; }
+        public static bool Expiration_Date_Lock_Enable { get; set; }
+        public static bool Hardware_Lock_Enabled { get; set; }
+        public static string HardwareID { get; set; }
+        public static SortedList KeyValueList { get; set; }
+        public static byte[] License { get; set; }
+        public static string License_HardwareID { get; set; }
+        public static bool Licensed { get; set; }
+        public static int Number_Of_Instances { get; set; }
+        public static bool Number_Of_Instances_Lock_Enable { get; set; }
+        public static int Number_Of_Uses { get; set; }
+        public static int Number_Of_Uses_Current { get; set; }
+        public static bool Number_Of_Uses_Lock_Enable { get; set; }
+
+    }
+}
+
+
+Content of "License.dll" in VB.NET:
+
+Namespace License
+    Public Enum EvaluationType
+        ' Fields
+        Runtime_Minutes = 1
+        Trial_Days = 0
+    End Enum
+
+    Public Class Status
+
+        ' Methods
+        Shared Sub New()
+        Private Sub New()
+        Public Shared Function CheckConfirmationCode(ByVal harwareID As String, ByVal confirmationCode As String) As Boolean
+        Public Shared Function GetHardwareID(ByVal Board As Boolean, ByVal CPU As Boolean, ByVal HDD As Boolean, ByVal MAC As Boolean) As String
+        Public Shared Function InvalidateLicense() As String
+        Public Shared Sub LoadLicense(ByVal filename As String)
+        Public Shared Sub LoadLicense(ByVal license As Byte())
+        Public Shared Function ReactivateLicense(ByVal code As String) As Boolean
+
+        ' Properties
+        Public Shared Property Evaluation_Lock_Enabled As Boolean
+        Public Shared Property Evaluation_Time As Integer
+        Public Shared Property Evaluation_Time_Current As Integer
+        Public Shared Property Evaluation_Type As EvaluationType
+        Public Shared Property Expiration_Date As DateTime
+        Public Shared Property Expiration_Date_Lock_Enable As Boolean
+        Public Shared Property Hardware_Lock_Enabled As Boolean
+        Public Shared Property HardwareID As String
+        Public Shared Property KeyValueList As SortedList
+        Public Shared Property License As Byte()
+        Public Shared Property License_HardwareID As String
+        Public Shared Property Licensed As Boolean
+        Public Shared Property Number_Of_Instances As Integer
+        Public Shared Property Number_Of_Instances_Lock_Enable As Boolean
+        Public Shared Property Number_Of_Uses As Integer
+        Public Shared Property Number_Of_Uses_Current As Integer
+        Public Shared Property Number_Of_Uses_Lock_Enable As Boolean
+
+    End Class
+End Namespace
+
+
+
+ 
+How To Examples: 
+
+1.  Reference Namespace of License.dll 
+2.  Check if a valid license file is available 
+3.  Read additonal license information from a license license 
+4.  Check the license status of Evaluation Lock 
+5.  Check the license status of Expiration Date Lock 
+6.  Check the license status of Number Of Uses Lock 
+7.  Check the license status of Number Of Instances Lock 
+8.  Check the license status of Hardware Lock 
+9.  Get Hardware ID of the current machine 
+10. Compare current Hardware ID with Hardware ID stored in License File 
+11. Invalidate the license 
+12. Check if a confirmation code is valid 
+13. Reactivate a license 
+14. Manually load a license using a filename 
+15. Manually load a license using byte[] 
+16. Get loaded license (if available) as byte[] 
+
+
+
+How To Example Code:
+
+
+Reference Namespace of License.dll
+using License;
+
+
+Check if a valid license file is available
+    /*** Check if a valid license file is available. ***/
+    public bool IsValidLicenseAvailable()
+    {
+        return License.Status.Licensed;
+    }
+
+
+Read additonal license information from a license license 
+    /*** Read additonal license information from a license license ***/
+    public void ReadAdditonalLicenseInformation()
+    {
+        /* Check first if a valid license file is found */
+        if (License.Status.Licensed)
+        {
+            /* Read additional license information */
+            for (int i = 0; i < License.Status.KeyValueList.Count; i++)
+            {
+                string key = License.Status.KeyValueList.GetKey(i).ToString();
+                string value = License.Status.KeyValueList.GetByIndex(i).ToString();
+            }
+        }
+    }
+
+
+Check the license status of Evaluation Lock 
+    /*** Check the license status of Evaluation Lock ***/
+    public void CheckEvaluationLock()
+    {
+        bool lock_enabled = License.Status.Evaluation_Lock_Enabled;
+        EvaluationType ev_type = License.Status.Evaluation_Type;
+        int time = License.Status.Evaluation_Time;
+        int time_current = License.Status.Evaluation_Time_Current;
+    }
+
+
+Check the license status of Expiration Date Lock 
+    /*** Check the license status of Expiration Date Lock ***/
+    public void CheckExpirationDateLock()
+    {
+        bool lock_enabled = License.Status.Expiration_Date_Lock_Enable;
+        System.DateTime expiration_date = License.Status.Expiration_Date;
+    }
+
+
+Check the license status of Number Of Uses Lock 
+    /*** Check the license status of Number Of Uses Lock ***/
+    public void CheckNumberOfUsesLock()
+    {
+        bool lock_enabled = License.Status.Number_Of_Uses_Lock_Enable;
+        int max_uses = License.Status.Number_Of_Uses;
+        int current_uses = License.Status.Number_Of_Uses_Current;
+    }
+
+
+Check the license status of Number Of Instances Lock 
+    /*** Check the license status of Number Of Instances Lock ***/
+    public void CheckNumberOfInstancesLock()
+    {
+        bool lock_enabled = License.Status.Number_Of_Instances_Lock_Enable;
+        int max_instances = License.Status.Number_Of_Instances;
+    }
+
+
+Check the license status of Hardware Lock 
+    /*** Check the license status of Hardware Lock ***/
+    public void CheckHardwareLock()
+    {
+        bool lock_enabled = License.Status.Hardware_Lock_Enabled;
+
+        if (lock_enabled)
+        {
+            /* Get Hardware ID which is stored inside the license file */
+            string lic_hardware_id  = License.Status.License_HardwareID;
+        }
+    }
+
+
+Get Hardware ID of the current machine 
+    /*** Get Hardware ID of the current machine ***/
+    public string GetHardwareID()
+    {
+        return License.Status.HardwareID;
+    }
+
+
+Compare current Hardware ID with Hardware ID stored in License File 
+    /*** Compare current Hardware ID with Hardware ID stored in License File ***/
+    public bool CompareHardwareID()
+    {
+        if (License.Status.HardwareID == License.Status.License_HardwareID)
+            return true;
+        else
+            return false;
+    }
+
+
+Invalidate the license 
+    /*** Invalidate the license. Please note, your protected software does not accept a license file anymore! ***/
+    public void InvalidateLicense()
+    {
+        string confirmation_code = License.Status.InvalidateLicense();
+    }
+
+
+Check if a confirmation code is valid 
+    /*** Check if a confirmation code is valid ***/
+    public bool CheckConfirmationCode(string confirmation_code)
+    {
+        return License.Status.CheckConfirmationCode(License.Status.HardwareID,
+        confirmation_code);
+    }
+
+
+Reactivate the license 
+    /*** Reactivate an invalidated license. ***/
+    public bool ReactivateLicense(string reactivation_code)
+    {
+        return License.Status.ReactivateLicense(reactivation_code);
+    }
+
+
+Manually load a license using a filename 
+    /*** Load the license. ***/
+    public void LoadLicense(string filename)
+    {
+        License.Status.LoadLicense(filename);
+    }
+
+
+Manually load a license using byte[] 
+    /*** Load the license. ***/
+    public void LoadLicense(byte[] license)
+    {
+        License.Status.LoadLicense(license);
+    }
+
+
+Get loaded license (if available) as byte[] 
+    /*** Get the license. ***/
+    public byte[] GetLicense()
+    {
+        return License.Status.License;
+    }
+

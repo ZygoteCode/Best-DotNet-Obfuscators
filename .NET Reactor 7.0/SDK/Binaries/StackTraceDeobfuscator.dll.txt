@@ -1,0 +1,2 @@
+The library StackTraceDeobfuscator.dll contains the class "Eziriz.StackTraceDeobfuscator". Using this class and a mapping file your are able to deobfuscate error messages. 
+Feel free to use this library.

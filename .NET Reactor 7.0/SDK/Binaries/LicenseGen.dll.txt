@@ -1,0 +1,18 @@
+LicenseGen.dll contains the class "LicenseGenerator". It enables you to create license files on the fly without using the .NET Reactor GUI (License Manager). It is not intended to use this library on end user systems. Mainly it is used on license servers.
+
+
+How To Example Code:
+
+    /*** Create a License File ***/
+    public void CreateLicenseFile(string project_filename)
+    {
+        LicenseGenerator licensegen = new LicenseGenerator(project_filename);
+
+        licensegen.AdditonalLicenseInformation.Add("Name", "John Doe");
+        licensegen.AdditonalLicenseInformation.Add("Company", "Acme");
+        licensegen.HardwareLock_Enabled = true;
+        licensegen.HardwareID = "1234-1234-1234-1234-1234";
+
+        licensegen.CreateLicenseFile(@"C:\MyProject\newlicense.license");
+    }
+
